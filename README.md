@@ -1,7 +1,6 @@
-Doctrine4Legacy
-==========
+# Doctrine4Legacy
 
-#####Small, but easy to use wrapper for Doctrine's DBAL and ORM at once for legacy apps.
+## Small, but easy to use wrapper for Doctrine's DBAL and ORM at once for legacy apps.
 
 Every day I have to work with legacy PHP 5.6 monolithic apps based on the custom-made framework. If you have some experience with Doctrine in Symfony framework, then you probably know how Doctrine's EntityManager eases the daily dev's life by simplifying everything.
 
@@ -13,7 +12,7 @@ Currently supports:
 
 As a PHP developer I'm still a beginner, but feel free to criticize the code.
 
-#####How to use?
+## How to use?
 
 1. Copy .env.dist, bootstrap.php and cli-config.php to your root directory
 2. Rename .env.dist to .env
