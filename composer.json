@@ -1,0 +1,26 @@
+{
+    "name": "ckuran/doctrine4legacy",
+    "description": "Easy to use Doctrine wrapper for legacy apps.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ckuran",
+            "email": "c@kuran.pl"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "php": "^5.6",
+        "doctrine/orm": "^2.5",
+        "symfony/dotenv": "^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "ckuran\\":"src/"
+        }
+    }
+}
