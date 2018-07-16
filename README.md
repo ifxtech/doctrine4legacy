@@ -14,11 +14,15 @@ As a PHP developer I'm still a beginner, but feel free to criticize the code.
 
 ## How to use?
 
-1. Copy .env.dist, bootstrap.php and cli-config.php to your root directory
-2. Rename .env.dist to .env
-3. Edit .env file and provide the access to a single or multiple databases via custom prefixes
-4. Require bootstrap.php in your script somewhere near loading the composer
-5. You can add the wrappers to bootstrap.php or use it anywhere in your script:
+1. Install with Composer
+```
+composer require ckuran/doctrine4legacy
+```
+2. Copy .env.dist, bootstrap.php and cli-config.php to your root directory
+3. Rename .env.dist to .env
+4. Edit .env file and provide the access to a single or multiple databases via custom prefixes
+5. Require bootstrap.php in your script somewhere near loading the composer
+6. You can add the wrappers to bootstrap.php or use it anywhere in your script:
 
 Obtain the default DB with:
 ```
