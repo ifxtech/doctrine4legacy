@@ -1,6 +1,8 @@
 {
     "name": "ckuran/doctrine4legacy",
-    "description": "Easy to use Doctrine wrapper for legacy apps.",
+    "description": "Simple Doctrine wrapper for legacy apps.",
+    "keywords": ["doctrine","wrapper"],
+    "homepage": "https://github.com/ckuran/doctrine4legacy",
     "type": "library",
     "license": "MIT",
     "authors": [

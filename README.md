@@ -1,6 +1,6 @@
 # Doctrine4Legacy
 
-## Small, but easy to use wrapper for Doctrine's DBAL and ORM at once for legacy apps.
+## Simple wrapper for both Doctrine's DBAL and ORM for legacy apps.
 
 Every day I have to work with legacy PHP 5.6 monolithic apps based on the custom-made framework. If you have some experience with Doctrine in Symfony framework, then you probably know how Doctrine's EntityManager eases the daily dev's life by simplifying everything.
 
