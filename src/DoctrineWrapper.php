@@ -1,6 +1,6 @@
 <?php
 
-namespace ckuran;
+namespace IFX;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
