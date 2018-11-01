@@ -25,7 +25,7 @@ class DoctrineWrapper
     {
         $credentials = self::getCredentials($prefix);
 
-        if (!in_array($prefix, self::$orm)) {
+        if (!in_array($prefix, self::$dbal)) {
             $config = new Configuration();
             self::$dbal[$prefix] = DriverManager::getConnection($credentials, $config);
         }
@@ -44,7 +44,7 @@ class DoctrineWrapper
         $credentials = self::getCredentials($prefix);
 
         if (!in_array($prefix, self::$orm)) {
-            $setup = Setup::createAnnotationMetadataConfiguration([$credentials['entities']], getenv('DEV_MODE'), null, null, false);
+            $setup = Setup::createAnnotationMetadataConfiguration([$credentials['entities']], getenv('DEV_MODE'), getenv('PROXY_DIR'), null, false);
             self::$orm[$prefix] = EntityManager::create($credentials, $setup);
         }
 
