@@ -64,6 +64,7 @@ class DoctrineWrapper
             'user'     => getenv($prefix . '_DB_USER'),
             'password' => getenv($prefix . '_DB_PASSWORD'),
             'dbname'   => getenv($prefix . '_DB_NAME'),
+            'charset'  => getenv($prefix . '_DB_CHARSET'),
             'entities' => getenv($prefix . '_ENTITY_DIR')
         ];
 
