@@ -6,71 +6,68 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\Cache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
-use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
 
-class DoctrineWrapper
+final class DoctrineWrapper
 {
-    protected static $dbal = [];
-    protected static $orm = [];
+    private $entityManager;
+    private $connection;
+    private $configuration = [];
+    private $devMode = false;
+    private $cache;
+    private $proxyDir;
+
+    public function __construct($configuration, $proxyDir, $devMode = false, Cache $cache = null)
+    {
+        # not supporting URLs yet
+        if (false === is_array($configuration)) {
+            throw new \InvalidArgumentException(sprintf("Configuration expected to be array %s given", gettype($configuration)));
+        }
+
+        if (false === empty(array_diff(array_keys($configuration), ['driver', 'host', 'user', 'password', 'dbname', 'charset', 'entities']))) {
+            throw new \InvalidArgumentException(sprintf("Configuration is incomplete, missing critical fields"));
+        }
+
+        $this->configuration = $configuration;
+        $this->devMode = $devMode;
+        $this->cache = $cache;
+        $this->proxyDir = $proxyDir;
+    }
 
     /**
-     * @param string $prefix
-     *
      * @return Connection
      * @throws DBALException
      */
-    public static function getConnection($prefix = 'default')
+    public function getConnection()
     {
-        $credentials = self::getCredentials($prefix);
-
-        if (!in_array($prefix, self::$dbal)) {
-            $config = new Configuration();
-            self::$dbal[$prefix] = DriverManager::getConnection($credentials, $config);
+        if (false === $this->connection instanceof Connection) {
+            $this->connection = DriverManager::getConnection($this->configuration, new Configuration());
         }
 
-        return self::$dbal[$prefix];
+        return $this->connection;
     }
 
     /**
-     * @param string $prefix
-     *
      * @return EntityManager
-     * @throws ORMException
      */
-    public static function getEntityManager($prefix = 'default')
+    public function getEntityManager()
     {
-        $credentials = self::getCredentials($prefix);
-
-        if (!in_array($prefix, self::$orm)) {
-            $setup = Setup::createAnnotationMetadataConfiguration([$credentials['entities']], getenv('DEV_MODE'), ROOT . getenv('PROXY_DIR'), null, false);
-            $setup->setNamingStrategy(new UnderscoreNamingStrategy());
-
-            self::$orm[$prefix] = EntityManager::create($credentials, $setup);
+        if(false === $this->entityManager instanceof EntityManager) {
+            $this->entityManager = EntityManager::create($this->configuration, $this->createSetup());
         }
 
-        return self::$orm[$prefix];
+        return $this->entityManager;
     }
 
-    /**
-     * @param $prefix
-     *
-     * @return array
-     */
-    private static function getCredentials($prefix)
+    public function createSetup()
     {
-        $config = [
-            'driver'   => getenv($prefix . '_DB_DRIVER'),
-            'host'     => getenv($prefix . '_DB_HOST'),
-            'user'     => getenv($prefix . '_DB_USER'),
-            'password' => getenv($prefix . '_DB_PASSWORD'),
-            'dbname'   => getenv($prefix . '_DB_NAME'),
-            'charset'  => getenv($prefix . '_DB_CHARSET'),
-            'entities' => getenv($prefix . '_ENTITY_DIR')
-        ];
+        $setup = Setup::createAnnotationMetadataConfiguration([$this->configuration['entities']], $this->devMode, $this->proxyDir, $this->cache, false);
+        $setup->setNamingStrategy(new UnderscoreNamingStrategy());
 
-        return $config;
+        return $setup;
     }
+
 }
